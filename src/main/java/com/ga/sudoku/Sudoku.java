@@ -12,6 +12,10 @@ public class Sudoku {
 
     private static SudokuCell[][] board = new SudokuCell[9][9];
 
+    public static SudokuCell[][] getBoard() {
+        return board;
+    }
+
     public static InputStream getPuzzleFile(String filePath) throws SudokuFileNotFoundException {
         InputStream puzzle1Stream = Sudoku.class.getResourceAsStream(filePath);
 
@@ -22,7 +26,7 @@ public class Sudoku {
         }
     }
 
-    public static void readPuzzle(InputStream puzzleStream){
+    public static void readPuzzle(InputStream puzzleStream) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(puzzleStream))) {
 
             String line;
@@ -64,7 +68,7 @@ public class Sudoku {
     }
 
     public static void displayBoard() {
-        System.out.println("\t\t\tPuzzle 1");
+        SudokuCell[][] board = getBoard();
 
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
@@ -84,19 +88,6 @@ public class Sudoku {
             if ((row + 1) % 3 == 0 && row < 8) {
                 System.out.println("----------------------------------");
             }
-        }
-    }
-
-    public static void main(String[] args) {
-        String puzzle1FilePath = "/puzzle/puzzle1.txt";
-        try {
-            InputStream puzzle = getPuzzleFile(puzzle1FilePath);
-            readPuzzle(puzzle);
-            displayBoard();
-        } catch (SudokuFileNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (InvalidCharacterException e) {
-            System.out.println(e.getMessage());
         }
 
     }
