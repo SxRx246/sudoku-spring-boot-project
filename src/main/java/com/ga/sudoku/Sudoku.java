@@ -40,7 +40,8 @@ public class Sudoku {
                         System.out.print("|  ");
                     }
 
-                    if (Integer.parseInt(numbers[column]) >= 0 && Integer.parseInt(numbers[column]) <= 9) {
+                    int number = Integer.parseInt(numbers[column]);
+                    if (number >= 0 && number <= 9) {
                         System.out.print(numbers[column]);
                     } else {
                         throw new InvalidCharacterException(
