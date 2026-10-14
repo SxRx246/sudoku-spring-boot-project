@@ -31,7 +31,18 @@ public class Sudoku {
             int row = 0;
 
             while ((line = reader.readLine()) != null) {
+
+                if (row >= 9) {
+                    throw new InvalidCharacterException(
+                            "Invalid puzzle: more than 9 rows.");
+                }
+
                 String[] numbers = line.trim().split("\\s+");
+
+                if (numbers.length != 9) {
+                    throw new InvalidCharacterException(
+                            "Invalid number of values in row " + (row + 1));
+                }
 
                 for (int column = 0; column < numbers.length; column++) {
 
