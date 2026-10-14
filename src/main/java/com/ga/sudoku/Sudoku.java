@@ -14,13 +14,12 @@ public class Sudoku {
 
         if (puzzle1Stream == null) {
             throw new SudokuFileNotFoundException("Puzzle file not found: " + filePath);
-        }
-        else {
+        } else {
             return puzzle1Stream;
         }
     }
 
-    public static void displayPuzzle(InputStream puzzle1Stream){
+    public static void displayPuzzle(InputStream puzzle1Stream) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(puzzle1Stream))) {
 
             System.out.println("\t\t\tPuzzle 1");
@@ -57,10 +56,12 @@ public class Sudoku {
     }
 
     public static void main(String[] args) {
-        String puzzle1FilePath = "/puzzle/puzzle1.txt";
-        InputStream puzzle1 = getPuzzle(puzzle1FilePath);
-        if(puzzle1 != null){
-            displayPuzzle(puzzle1);
+        String puzzle1FilePath = "/puzzle/puzzle1x.txt";
+        try {
+            InputStream puzzle = getPuzzle(puzzle1FilePath);
+            displayPuzzle(puzzle);
+        } catch (SudokuFileNotFoundException e) {
+            System.out.println(e.getMessage());
         }
 
     }
