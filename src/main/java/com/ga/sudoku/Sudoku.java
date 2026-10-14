@@ -47,7 +47,15 @@ public class Sudoku {
 
                 for (int column = 0; column < numbers.length; column++) {
 
-                    int number = Integer.parseInt(numbers[column]);
+                    int number;
+
+                    try {
+                        number = Integer.parseInt(numbers[column]);
+                    } catch (NumberFormatException e) {
+                        throw new InvalidCharacterException(
+                                "Invalid character in puzzle: " + numbers[column]
+                        );
+                    }
 
                     if (number >= 0 && number <= 9) {
                         board[row][column] = new SudokuCell(number);
