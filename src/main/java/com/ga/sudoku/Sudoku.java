@@ -46,13 +46,14 @@ public class Sudoku {
                     int number = Integer.parseInt(numbers[column]);
 
                     if (number >= 0 && number <= 9) {
-                        System.out.print(board[row][column].getValue());
+                        System.out.print(number);
                     } else {
                         throw new InvalidCharacterException(
-                                "Invalid Character: " + numbers[column]);
+                                "Invalid Character: " + number);
                     }
 
                     board[row][column] = new SudokuCell(number);
+
 
                 }
 
