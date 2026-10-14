@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 
 public class Sudoku {
 
+    private static SudokuCell[][] board = new SudokuCell[9][9];
+
     public static InputStream getPuzzle(String filePath) throws SudokuFileNotFoundException {
         InputStream puzzle1Stream = Sudoku.class.getResourceAsStream(filePath);
 
@@ -32,6 +34,7 @@ public class Sudoku {
                 String[] numbers = line.trim().split("\\s+");
 
                 for (int column = 0; column < numbers.length; column++) {
+
                     if (column > 0) {
                         System.out.print("  ");
                     }
@@ -41,12 +44,15 @@ public class Sudoku {
                     }
 
                     int number = Integer.parseInt(numbers[column]);
+
                     if (number >= 0 && number <= 9) {
-                        System.out.print(numbers[column]);
+                        System.out.print(board[row][column].getValue());
                     } else {
                         throw new InvalidCharacterException(
                                 "Invalid Character: " + numbers[column]);
                     }
+
+                    board[row][column] = new SudokuCell(number);
 
                 }
 
