@@ -1,5 +1,6 @@
 package com.ga.sudoku;
 
+import com.ga.sudoku.exception.InvalidCharacterException;
 import com.ga.sudoku.exception.SudokuFileNotFoundException;
 
 import java.io.BufferedReader;
@@ -39,7 +40,13 @@ public class Sudoku {
                         System.out.print("|  ");
                     }
 
-                    System.out.print(numbers[column]);
+                    if (Integer.parseInt(numbers[column]) >= 0 && Integer.parseInt(numbers[column]) <= 9) {
+                        System.out.print(numbers[column]);
+                    } else {
+                        throw new InvalidCharacterException(
+                                "Invalid Character: " + numbers[column]);
+                    }
+
                 }
 
                 System.out.println();
@@ -56,11 +63,13 @@ public class Sudoku {
     }
 
     public static void main(String[] args) {
-        String puzzle1FilePath = "/puzzle/puzzle1x.txt";
+        String puzzle1FilePath = "/puzzle/puzzle1.txt";
         try {
             InputStream puzzle = getPuzzle(puzzle1FilePath);
             displayPuzzle(puzzle);
         } catch (SudokuFileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidCharacterException e) {
             System.out.println(e.getMessage());
         }
 
