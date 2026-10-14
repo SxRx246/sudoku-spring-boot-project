@@ -3,10 +3,9 @@ package com.ga.sudoku;
 import com.ga.sudoku.exception.InvalidCharacterException;
 import com.ga.sudoku.exception.SudokuFileNotFoundException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Sudoku {
 
@@ -90,5 +89,26 @@ public class Sudoku {
             }
         }
 
+    }
+
+    public static String getSolutionName(String puzzleName) {
+        return puzzleName.replace(".txt", ".solution.txt");
+    }
+
+    public static void saveSolution(String fileName) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(fileName))) {
+            for (int row = 0; row < 9; row++) {
+                for (int column = 0; column < 9; column++) {
+                    writer.write(String.valueOf(board[row][column].getValue()));
+
+                    if (column < 8) {
+                        writer.write(" ");
+                    }
+                }
+                writer.newLine();
+            }
+        }
+
+        System.out.println("\nSolution saved: " + fileName);
     }
 }

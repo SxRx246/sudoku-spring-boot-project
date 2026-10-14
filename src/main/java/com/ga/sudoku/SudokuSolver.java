@@ -38,7 +38,7 @@ public class SudokuSolver {
     }
 
     public boolean isValid(int num, int row, int column) {
-            if (!existsInRow(num, row) && !existsInColumn(num, column) && !existsInBox(num, row, column)) {
+            if (board[row][column].isEmpty() && !existsInRow(num, row) && !existsInColumn(num, column) && !existsInBox(num, row, column)) {
                 return true;
             } else {
                 return false;
