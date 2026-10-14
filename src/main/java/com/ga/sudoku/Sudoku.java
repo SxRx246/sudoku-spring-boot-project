@@ -16,11 +16,36 @@ public class Sudoku {
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(puzzle1Stream))) {
+
+            System.out.println("\t\t\tPuzzle 1");
+
             String line;
+            int row = 0;
+
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                String[] numbers = line.trim().split("\\s+");
+
+                for (int column = 0; column < numbers.length; column++) {
+                    if (column > 0) {
+                        System.out.print("  ");
+                    }
+
+                    if (column == 3 || column == 6) {
+                        System.out.print("|  ");
+                    }
+
+                    System.out.print(numbers[column]);
+                }
+
+                System.out.println();
+                row++;
+
+                if (row % 3 == 0 && row < 9) {
+                    System.out.println("----------------------------------");
+                }
             }
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             System.out.println("Error reading puzzle1.txt: " + e.getMessage());
         }
 
