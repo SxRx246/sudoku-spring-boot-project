@@ -1,7 +1,12 @@
 package com.ga.sudoku;
 
 public class SudokuSolver {
-    SudokuCell[][] board = Sudoku.getBoard();
+
+    private final SudokuCell[][] board;
+
+    public SudokuSolver(SudokuCell[][] board) {
+        this.board = board;
+    }
 
     public boolean existsInRow(int num, int row) {
         for (int column = 0; column < 9; column++) {
