@@ -69,7 +69,6 @@ public class PuzzleService {
 
         return solvedBoard.toString();
 
-
     }
 
 //            puzzle.getInitialBoard().length()
