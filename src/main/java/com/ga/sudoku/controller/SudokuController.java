@@ -84,7 +84,7 @@ public class SudokuController {
         }
 
         return ResponseEntity.ok(
-                "Solution file downloaded successfully. Location: "
+                "Solution file location: "
                         + outputFile.toAbsolutePath()
         );
     }
