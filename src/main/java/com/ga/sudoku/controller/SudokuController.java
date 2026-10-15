@@ -4,14 +4,13 @@ package com.ga.sudoku.controller;
 import com.ga.sudoku.Sudoku;
 import com.ga.sudoku.SudokuCell;
 import com.ga.sudoku.SudokuSolver;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,6 +18,8 @@ import java.nio.file.Path;
 @RestController
 @RequestMapping("/sudoku")
 public class SudokuController {
+
+    private Path outputFile;
 
     @PostMapping("/solve")
     public ResponseEntity<?> solvePuzzle(
@@ -30,8 +31,17 @@ public class SudokuController {
                     .body("Please upload a puzzle file.");
         }
 
-        Sudoku sudoku = new Sudoku();
+        String fileName = Path.of(file.getOriginalFilename())
+                .getFileName().toString();
 
+        String solutionFileName = new Sudoku().getSolutionName(fileName);
+
+        outputFile = Path.of(
+                "src/main/resources/puzzle.solution",
+                solutionFileName
+        );
+
+        Sudoku sudoku = new Sudoku();
         sudoku.readPuzzle(file.getInputStream());
 
         SudokuCell[][] board = sudoku.getBoard();
@@ -42,20 +52,40 @@ public class SudokuController {
                     .body("This puzzle has no solution.");
         }
 
-        Path outputDirectory = Path.of("solved-puzzles");
-        Files.createDirectories(outputDirectory);
-
-        Path outputFile = Files.createTempFile(
-                outputDirectory, "solved-", ".txt");
-
+        Files.createDirectories(outputFile.getParent());
         sudoku.saveSolution(outputFile.toString());
 
-        Resource resource = new FileSystemResource(outputFile);
+        StringBuilder solution = new StringBuilder();
+
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                solution.append(board[row][column].getValue());
+
+                if (column < 8) {
+                    solution.append(" ");
+                }
+            }
+
+            solution.append(System.lineSeparator());
+        }
 
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_PLAIN)
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"solved-puzzle.txt\"")
-                .body(resource);
+                .body(solution.toString());
+    }
+
+    @GetMapping("/solution")
+    public ResponseEntity<String> getSolution() throws IOException {
+
+        if (outputFile == null || !Files.exists(outputFile)) {
+            throw new FileNotFoundException(
+                    "No solution file found. Solve a puzzle first."
+            );
+        }
+
+        return ResponseEntity.ok(
+                "Solution file downloaded successfully. Location: "
+                        + outputFile.toAbsolutePath()
+        );
     }
 }

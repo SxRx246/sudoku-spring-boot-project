@@ -1,7 +1,7 @@
 package com.ga.sudoku;
 
 import com.ga.sudoku.exception.InvalidCharacterException;
-import com.ga.sudoku.exception.SudokuFileNotFoundException;
+import com.ga.sudoku.exception.FileNotFoundException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -15,11 +15,11 @@ public class Sudoku {
         return board;
     }
 
-    public InputStream getPuzzleFile(String filePath) throws SudokuFileNotFoundException {
+    public InputStream getPuzzleFile(String filePath) throws FileNotFoundException {
         InputStream puzzle1Stream = Sudoku.class.getResourceAsStream(filePath);
 
         if (puzzle1Stream == null) {
-            throw new SudokuFileNotFoundException("Puzzle file not found: " + filePath);
+            throw new FileNotFoundException("Puzzle file not found: " + filePath);
         } else {
             return puzzle1Stream;
         }

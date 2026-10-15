@@ -2,7 +2,7 @@
 package com.ga.sudoku;
 
 import com.ga.sudoku.exception.InvalidCharacterException;
-import com.ga.sudoku.exception.SudokuFileNotFoundException;
+import com.ga.sudoku.exception.FileNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +36,7 @@ public class Main {
                 System.out.println("No solution exists.");
             }
 
-        } catch (SudokuFileNotFoundException
+        } catch (FileNotFoundException
                 | InvalidCharacterException
                 | IOException e) {
             System.out.println(e.getMessage());
