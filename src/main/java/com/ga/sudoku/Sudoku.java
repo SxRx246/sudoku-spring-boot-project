@@ -9,13 +9,13 @@ import java.nio.file.Path;
 
 public class Sudoku {
 
-    private static SudokuCell[][] board = new SudokuCell[9][9];
+    private final SudokuCell[][] board = new SudokuCell[9][9];
 
-    public static SudokuCell[][] getBoard() {
+    public SudokuCell[][] getBoard() {
         return board;
     }
 
-    public static InputStream getPuzzleFile(String filePath) throws SudokuFileNotFoundException {
+    public InputStream getPuzzleFile(String filePath) throws SudokuFileNotFoundException {
         InputStream puzzle1Stream = Sudoku.class.getResourceAsStream(filePath);
 
         if (puzzle1Stream == null) {
@@ -25,7 +25,7 @@ public class Sudoku {
         }
     }
 
-    public static void readPuzzle(InputStream puzzleStream) {
+    public void readPuzzle(InputStream puzzleStream) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(puzzleStream))) {
 
             String line;
@@ -74,7 +74,7 @@ public class Sudoku {
         }
     }
 
-    public static void displayBoard() {
+    public void displayBoard() {
         SudokuCell[][] board = getBoard();
 
         for (int row = 0; row < 9; row++) {
@@ -99,11 +99,11 @@ public class Sudoku {
 
     }
 
-    public static String getSolutionName(String puzzleName) {
+    public String getSolutionName(String puzzleName) {
         return puzzleName.replace(".txt", ".solution.txt");
     }
 
-    public static void saveSolution(String fileName) throws IOException {
+    public void saveSolution(String fileName) throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(fileName))) {
             for (int row = 0; row < 9; row++) {
                 for (int column = 0; column < 9; column++) {

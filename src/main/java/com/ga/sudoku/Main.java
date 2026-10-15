@@ -10,23 +10,28 @@ import java.io.InputStream;
 public class Main {
 
     public static void main(String[] args) {
+        Sudoku sudoku = new Sudoku();
+
         String puzzleFilePath = "/puzzle/puzzle2.txt";
-        String solution = "src/main/resources/puzzle.solution/" + Sudoku.getSolutionName("puzzle2.txt");
+        String solution = "src/main/resources/puzzle.solution/" + sudoku.getSolutionName("puzzle2.txt");
 
         try {
-            InputStream puzzle = Sudoku.getPuzzleFile(puzzleFilePath);
 
-            Sudoku.readPuzzle(puzzle);
+            InputStream puzzle = sudoku.getPuzzleFile(puzzleFilePath);
+
+            sudoku.readPuzzle(puzzle);
 
             System.out.println("\t\tOriginal Puzzle");
-            Sudoku.displayBoard();
+            sudoku.displayBoard();
 
-            SudokuSolver solver = new SudokuSolver();
+            SudokuCell[][] board = sudoku.getBoard();
+
+            SudokuSolver solver = new SudokuSolver(board);
 
             if (solver.solveSudoku()) {
                 System.out.println("\n\t\tSolved Puzzle");
-                Sudoku.displayBoard();
-                Sudoku.saveSolution(solution);
+                sudoku.displayBoard();
+                sudoku.saveSolution(solution);
             } else {
                 System.out.println("No solution exists.");
             }
